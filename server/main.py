@@ -122,8 +122,7 @@ def removeInformationPower(id):
             conn.rollback()
             msg = "Error occured"
     conn.close()
-    print(msg)
-    return "Deleted successsfully"
+    return msg
 
 
 @app.route("/deleteAngel/<id>")
@@ -138,8 +137,7 @@ def removeInformationAngel(id):
             conn.rollback()
             msg = "Error occured"
     conn.close()
-    print(msg)
-    return "Deleted successsfully"
+    return msg
 
 
 @app.route("/check/<int:power>/<int:voltage>/<int:stream>")
@@ -150,6 +148,42 @@ def check(power, voltage, stream):
         return "1"
     else:
         return "0"
+
+
+@app.route("/std/angel_information")
+def angel_information():
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT angelValue, eventTime FROM angel')
+        Data = cur.fetchall()
+    return jsonify(Data)
+
+
+@app.route("/std/power_information")
+def power_information():
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT powerValue, eventTime FROM power')
+        Data = cur.fetchall()
+    return jsonify(Data)
+
+
+@app.route("/std/stream_information")
+def stream_information():
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT streamValue, eventTime FROM stream')
+        Data = cur.fetchall()
+    return jsonify(Data)
+
+
+@app.route("/std/voltage_information")
+def voltage_information():
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT voltageValue, eventTime FROM voltage')
+        Data = cur.fetchall()
+    return jsonify(Data)
 
 
 if __name__ == '__main__':
